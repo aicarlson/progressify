@@ -1,0 +1,28 @@
+{
+  "name": "matchHeights",
+  "version": "1.0.0",
+  "description": "Simple, concise, and lightweight height equalization with jQuery.",
+  "main": "matchHeights.js",
+  "dependencies": {
+    "gulp": "^3.9.0"
+  },
+  "devDependencies": {
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-uglify": "^1.4.0"
+  },
+  "scripts": {
+    "test": "npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "matchHeights"
+  },
+  "keywords": [
+    "jQuery",
+    "heights",
+    "responsive"
+  ],
+  "author": "Andrew Carlson",
+  "license": "MIT"
+}
