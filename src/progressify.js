@@ -109,6 +109,21 @@
 				options.cssClass = typeof options.cssClass === 'string' ? options.cssClass : '';
 
 				/*
+				Optionally force the data-progress attribute
+				*/
+				options.showData = options.showData ? options.showData : undefined;
+
+				/*
+				Optionally show the progress as a percentage
+				*/
+				options.showProgress = options.showProgress ? options.showProgress : undefined;
+
+				/*
+				Percentage completed element
+				*/
+				options.showProgressCustom = typeof options.showProgressCustom === 'string' ? options.showProgressCustom : '.progressify-progress';
+
+				/*
 				If options.progressBar is the default option, create the progress element.
 				*/
 				if( options.progressBar === defaultProgress ) {
@@ -119,6 +134,15 @@
 				Add optional CSS classes as well as the position class to the element
 				*/
 				var $progBar = $(options.progressBar);
+
+				/*
+				If a percentage of progress is desired AND the user didn't specify a custom percentage element:
+				Add the percentage after the progress bar.
+				*/
+				if( options.showProgress === true && showProgressCustom === '.progressify-progress' ) {
+					$progBar.after('<span class="' + showProgressCustom + '"></span>');
+				}
+
 				var newClasses = options.cssClass;
 
 				if( options.position !== undefined ) {
@@ -140,16 +164,29 @@
 					*/
 					var currentOffset = $(window).scrollTop() - start;
 					var percentage = (currentOffset / height) >= 0 ? currentOffset / height : 0;
-						percentage = percentage * 100 < 101 ? percentage * 100 : 100;
+						percentage = percentage * 100 < 101 ? Math.floor(percentage * 100) : 100;
+						percentage = percentage + '%';
 					var $progBar = $(options.progressBar);
 
 					/*
-					If the orientation is undefined, apply a data attribute with the progress
+					If the orientation === undefined OR if showData === true apply a data attribute with the progress
 					*/
-					if( options.orientation === undefined) {
+					if( options.orientation === undefined || options.showData === true) {
 						$progBar.attr('data-progress', percentage);
-					} else {
-						$progBar.css(options.orientation, percentage + '%');
+					}
+
+					/*
+					Update the progress completion number if showProgress === true
+					*/
+					if( options.showProgress === true ) {
+						$(options.showProgressCustom).html(percentage);
+					}
+
+					/*
+					If the orientation (width | height) has been defined, set the completion as a percentage of the orientation.
+					*/
+					if( options.orientation !== undefined ) {
+						$progBar.css(options.orientation, percentage);
 					}
 
 				}, options.debounceTime);
