@@ -34,6 +34,8 @@
 				*/
 				var defaultProgress = '.progressify-value';
 
+				var defaultWrapper = '.progressify-bar';
+
 				/*
 				Debounce function to prevent using up all browser resources on scroll.
 				*/
@@ -58,10 +60,15 @@
 				var options = options || {};
 
 				/*
+				The element that functions as the progress bar wrapper.
+				*/
+				options.progressWrapper = typeof options.progressWrapper === 'string' ? options.progressWrapper : defaultWrapper;
+
+				/*
 				The element that functions as a progress bar. 
 				This is the element that receives the completion percentage.
 				*/
-				options.progressBar = options.progressBar ? options.progressBar : defaultProgress;
+				options.progressBar = typeof options.progressBar === 'string' ? options.progressBar : defaultProgress;
 
 				/*
 				The amount of time in milliseconds to wait before calling the function again.
@@ -104,7 +111,7 @@
 				}
 
 				/*
-				Adds optional CSS classes to progress element.
+				Adds optional CSS classes to progress wrapper.
 				*/
 				options.cssClass = typeof options.cssClass === 'string' ? options.cssClass : '';
 
@@ -121,7 +128,12 @@
 				/*
 				Percentage completed element
 				*/
-				options.showProgressCustom = typeof options.showProgressCustom === 'string' ? options.showProgressCustom : '.progressify-progress';
+				options.showProgressCustom = typeof options.showProgressCustom === 'string' ? options.showProgressCustom : false;
+
+				/*
+				Percentage completed element placement
+				*/
+				options.showProgressPosition = options.showProgressPosition.match(/^(inside|outside)$/) ? options.showProgressPosition : 'outside';
 
 				/*
 				If options.progressBar is the default option, create the progress element.
@@ -139,17 +151,25 @@
 				If a percentage of progress is desired AND the user didn't specify a custom percentage element:
 				Add the percentage after the progress bar.
 				*/
-				if( options.showProgress === true && showProgressCustom === '.progressify-progress' ) {
-					$progBar.after('<span class="' + showProgressCustom + '"></span>');
+				if( options.showProgress === true && !options.showProgressCustom ) {
+
+					$showProgEl = '<span class="progressify-progress"></span>';
+
+					if( options.showProgressPosition === 'inside' ) {
+						$progBar.append($showProgEl);
+					} else {
+						$progBar.after($showProgEl);
+					}
+
 				}
 
 				var newClasses = options.cssClass;
 
 				if( options.position !== undefined ) {
-					newClasses += ' position-' + options.position;
+					newClasses += ' progressify-position-' + options.position;
 				}
 				
-				$progBar.addClass(newClasses);
+				$(options.progressWrapper).addClass(newClasses);
 
 				/*
 				Actual progression function
@@ -179,7 +199,8 @@
 					Update the progress completion number if showProgress === true
 					*/
 					if( options.showProgress === true ) {
-						$(options.showProgressCustom).html(percentage);
+						var showProgEl = options.showProgressCustom ? options.showProgressCustom : '.progressify-progress';
+						$(showProgEl).html(percentage);
 					}
 
 					/*
