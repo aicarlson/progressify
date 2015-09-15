@@ -12,3 +12,8 @@ Contribution
 ------------
 
 Have improvements? Pull Request away!
+
+TODO
+----
+
+Update available options (There are a lot)
