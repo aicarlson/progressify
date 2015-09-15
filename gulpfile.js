@@ -5,7 +5,7 @@ var rename  = require('gulp-rename');
 
 gulp.task('scripts', function() {
 	return gulp.src('src/progressify.js')
-		.pipe(uglify({preserveComments:'all'}))
+		.pipe(uglify({preserveComments:'license'}))
 		.pipe(rename({
 			suffix: '.min'
 		}))
