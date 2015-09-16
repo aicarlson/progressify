@@ -1,4 +1,4 @@
-/*! progressify v0.2.0 | (c) 2015 Andrew Carlson  */
+/*! progressify v0.3.0 | (c) 2015 Andrew Carlson  */
 ;(function($) {
 
 	$.fn.progressify = function(options) {
@@ -9,7 +9,7 @@
 			Removes the scroll event handler and the progress bar if it was added.
 			*/
 			$(window).off('scroll', showProgress);
-			$('.progressify-bar').remove();
+			$('.progressify').remove();
 
 			return this;
 
@@ -133,7 +133,7 @@
 				/*
 				Percentage completed element placement
 				*/
-				options.showProgressPosition = options.showProgressPosition.match(/^(inside|outside)$/) ? options.showProgressPosition : 'outside';
+				options.showProgressPosition = options.showProgressPosition !== undefined && options.showProgressPosition.match(/^(inside|outside)$/) ? options.showProgressPosition : 'outside';
 
 				/*
 				If options.progressBar is the default option, create the progress element.
@@ -166,7 +166,7 @@
 				var newClasses = options.cssClass;
 
 				if( options.position !== undefined ) {
-					newClasses += ' progressify-position-' + options.position;
+					newClasses += ' progressify progressify-position-' + options.position;
 				}
 				
 				$(options.progressWrapper).addClass(newClasses);
