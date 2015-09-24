@@ -6,6 +6,8 @@ progressify is a jQuery plugin to visualize the amount of time left reading an a
 Usage
 -----
 
+Include both progressify.min.js and progressify.min.css on your page. progressify.min.js should be included after jQuery.
+
 Progressify should be instantiated on the article body that you want to track. 
 
 `$('.article-wrapper').progressify();`
